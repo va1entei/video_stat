@@ -9,7 +9,7 @@ import time
 import cv2
 import csv
 
-TIME_LIM = 1200
+TIME_LIM = 60
 DEF_AREA = 500
 REFERER = ""
 
@@ -87,9 +87,9 @@ def detect_motion(file_name):
         for c in cnts:
             if cv2.contourArea(c) < DEF_AREA:
                 continue
-            if len(cnts) <= max_rect:
+            if cv2.contourArea(c) <= max_rect:
                 continue
-            max_rect = len(cnts)
+            max_rect = cv2.contourArea(c)
             (x, y, w, h) = cv2.boundingRect(c)
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
             frameOrig = frame.copy()
@@ -124,6 +124,7 @@ def dumpSegs(initUrl, segments, path, append=False):
 
 
 if __name__ == "__main__":
+    print("start")
     DEST = LOC + OUTNAME
     SOURCE = video_url
     delim = ''
@@ -136,11 +137,14 @@ if __name__ == "__main__":
         if not os.path.isdir(PATH):
             print('INAVLID DESTINATION.')
             sys.exit(0)
+    print("request")
     m3u8 = requests.get(SOURCE, headers=HEADERS)
     segments = getSegs(m3u8)
+    print(segments)
     url = '/'.join(SOURCE.split('/')[:-1])
     aa = []
     bb = []
+    print("csv")
     fieldnames = ['data', 'time_start','time_stop','count_move','screen']
     file_csv='insec/names.csv'
     if not os.path.exists(file_csv):
