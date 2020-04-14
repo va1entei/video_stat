@@ -9,8 +9,8 @@ import time
 import cv2
 import csv
 
-TIME_LIM = 60
-DEF_AREA = 0
+TIME_LIM = 1200
+DEF_AREA = 500
 REFERER = ""
 
 OUTNAME = 'video_'  # default output file name
@@ -164,7 +164,7 @@ if __name__ == "__main__":
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                 writer.writerow({'data': value.strftime('%Y%m%d'), 'time_start':  value.strftime('%H%M%S'),
                     'time_stop':value2.strftime('%H%M%S'),'count_move':out,
-                    'screen':'none' if out == 0 else file_name.split('_')[1].split('.')[0]+".jpg"})
+                    'screen':'none' if out == 0 else file_video_name.split('_')[1].split('.')[0]+".jpg"})
 
             os.system("git config --global user.name \""+logi_name+"\"")
             os.system("git config --global user.email "+logi_name+"@gmil.com")
