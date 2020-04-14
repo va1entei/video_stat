@@ -9,7 +9,7 @@ import time
 import cv2
 import csv
 
-TIME_LIM = 60
+TIME_LIM = 900
 DEF_AREA = 500
 REFERER = ""
 
@@ -140,7 +140,6 @@ if __name__ == "__main__":
     print("request")
     m3u8 = requests.get(SOURCE, headers=HEADERS)
     segments = getSegs(m3u8)
-    print(segments)
     url = '/'.join(SOURCE.split('/')[:-1])
     aa = []
     bb = []
@@ -152,7 +151,7 @@ if __name__ == "__main__":
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)    
             writer.writeheader()
 
-    for i in segments:
+    for i in segments[500:]:
         aa.append(int(i.split('.')[0])/1000)
         bb.append(i)
         if aa[-1] - aa[0] > TIME_LIM:
