@@ -12,7 +12,7 @@ import pytz
 import glob
 from PIL import Image
 
-TIME_LIM = 900
+TIME_LIM = 600
 DEF_AREA = 500
 REFERER = ""
 
@@ -108,6 +108,9 @@ def detect_motion(file_name):
             folder1 = folder1+"/"+file_name.split('-')[1]+"-"+file_name.split('-')[2].split('.')[0]
             if not os.path.exists(folder1):
                 os.mkdir(folder1)
+            if not os.path.exists(folder1+"/1"):
+                os.mkdir(folder1+"/1")
+            
             numdir=1
             while os.path.exists(folder1+"/"+str(numdir)):
                 numdir += 1
