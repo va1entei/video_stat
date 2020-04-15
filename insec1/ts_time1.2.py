@@ -95,13 +95,13 @@ def detect_motion(file_name):
             (x, y, w, h) = cv2.boundingRect(c)
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
             frameOrig = frame.copy()
-
-            if not os.path.exists(path_to_in+file_name.split('-')[0]):
-                os.mkdir(path_to_in+file_name.split('-')[0])
             folder1 = path_to_in+file_name.split('-')[0]
-            if not os.path.exists(folder1+"/"+path_to_in+file_name.split('-')[1]+"-"+path_to_in+file_name.split('-')[2]):
-                os.mkdir(folder1+"/"+path_to_in+file_name.split('-')[1]+"-"+path_to_in+file_name.split('-')[2])
-            folder1 = folder1+"/"+path_to_in+file_name.split('-')[1]+"-"+path_to_in+file_name.split('-')[2]    
+            if not os.path.exists(folder1):
+                os.mkdir(folder1)
+            
+            folder1 = folder1+"/"+file_name.split('-')[1]+"-"+file_name.split('-')[2].split('.')[0]
+            if not os.path.exists(folder1):
+                os.mkdir(folder1)
             
             num1 = 1
             filejpg=folder1+"/"+file_name.split('.')[0]+str(num1)+".jpg"
