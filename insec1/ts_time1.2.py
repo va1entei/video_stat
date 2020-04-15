@@ -104,10 +104,20 @@ def detect_motion(file_name):
             if not os.path.exists(folder1):
                 os.mkdir(folder1)
             
+            
             folder1 = folder1+"/"+file_name.split('-')[1]+"-"+file_name.split('-')[2].split('.')[0]
             if not os.path.exists(folder1):
                 os.mkdir(folder1)
-           
+            numdir=1
+            while os.path.exists(folder1+"/"+str(numdir)):
+                numdir += 1
+            numdir -=1
+            listfile = os.listdir(folder1+"/"+str(numdir))
+            number_files = len(listfile)
+            if number_files > 200:
+                numdir += 1
+                os.mkdir(folder1+"/"+str(numdir))
+            folder1 = folder1+"/"+str(numdir)
             filejpg=folder1+"/"+file_name.split('.')[0]+"_"+str(num1)+"_.jpg"
             while  os.path.exists(filejpg):
                 num1 += 1
@@ -190,14 +200,18 @@ if __name__ == "__main__":
                     'time_stop':value2.strftime('%H%M%S'),'count_move':out,
                     'screen':'none' if out == 0 else file_video_name.split('.')[0]+".jpg"})
             if out > 2:
+                numdir = 1
+               
                 folder1 = path_to_in+file_video_name.split('-')[0]
                 folder1 = folder1+"/"+file_video_name.split('-')[1]+"-"+file_video_name.split('-')[2].split('.')[0]
-                fp_in = folder1+"/"+"*.jpg"
-                fp_out = folder1+"/"+file_video_name.split('.')[0]+".gif"
-                img, *imgs = [Image.open(f) for f in sorted(glob.glob(fp_in))]
-                img.save(fp=fp_out, format='GIF', append_images=imgs,
-                        save_all=True, duration=200, loop=0)
-                os.system("rm -rf "+folder1+"/"+"*.jpg")
+                while os.path.exists(folder1+"/"+str(numdir)):
+                    fp_in = folder1+"/"+str(numdir)+"/"+"*.jpg"
+                    fp_out = folder1+"/"+str(numdir)+"/"+file_video_name.split('.')[0]+".gif"
+                    img, *imgs = [Image.open(f) for f in sorted(glob.glob(fp_in))]
+                    img.save(fp=fp_out, format='GIF', append_images=imgs,
+                            save_all=True, duration=200, loop=0)
+                    os.system("rm -rf "+folder1+"/"+str(numdir)+"/"+"*.jpg")
+                    numdir += 1
             os.remove(file_video_name)
 
             os.system("git config --global user.name \""+logi_name+"\"")
