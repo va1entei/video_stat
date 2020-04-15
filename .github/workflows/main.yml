@@ -25,4 +25,5 @@ jobs:
            sudo pip3 install opencv-python
            sudo apt-get install python-requests          
            sudo pip3 install imutils
+           sudo pip3 install Pillow
            ${{github.event.comment.body}} 
