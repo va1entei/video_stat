@@ -162,10 +162,10 @@ if __name__ == "__main__":
                 
         aa.append(int(i.split('.')[0])/1000)
         bb.append(i)
-        if aa[-1] - aa[0] > TIME_LIM:
+        value = datetime.datetime.fromtimestamp(aa[0])
+        value2 = datetime.datetime.fromtimestamp(aa[-1])
+        if aa[-1] - aa[0] > TIME_LIM or value.strftime('%Y%m%d') != value2.strftime('%Y%m%d'):
             print(bb)
-            value = datetime.datetime.fromtimestamp(aa[0])
-            value2 = datetime.datetime.fromtimestamp(aa[-1])
             file_video_name = value.strftime('%Y%m%d-%H%M%S')+value2.strftime('-%H%M%S')+".ts"
             dumpSegs(url, bb,file_video_name )
             out = detect_motion(file_video_name)
