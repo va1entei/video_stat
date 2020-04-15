@@ -147,7 +147,7 @@ if __name__ == "__main__":
     bb = []
     print("csv")
     fieldnames = ['data', 'time_start','time_stop','count_move','screen']
-    file_csv='insec/names.csv'
+    file_csv='insec1/names.csv'
     if not os.path.exists(file_csv):
         with open(file_csv, 'w', newline='') as csvfile:
             writer = csv.DictWriter(csvfile, fieldnames=fieldnames)    
@@ -156,7 +156,7 @@ if __name__ == "__main__":
                 'time_stop':'010101','count_move':'0',
                 'screen':'none' })
                 
-    df = pd.read_csv('insec/names.csv')
+    df = pd.read_csv(file_csv)
     datanow = df['data'].tolist()
     datanum = datanow[-1]
     timenow = df['time_stop'].tolist()
@@ -191,10 +191,10 @@ if __name__ == "__main__":
             os.remove(file_video_name)
 
             os.system("git config --global user.name \""+logi_name+"\"")
-            os.system("git config --global user.email "+logi_name+"@gmil.com")
+            os.system("git config --global user.email "+logi_name+"@github.com")
             os.system("git remote set-url origin https://"+logi_name+":"+pass_name+"@github.com/"+logi_name+"/"+retpo_name+".git")
             os.system("git checkout master")
-            os.system("git add in insec")
+            os.system("git add  insec1 "+path_to_in)
             os.system("git commit -m \"oinion csv files\"")
             os.system("git push origin master   ") 	
             
