@@ -66,7 +66,8 @@ pass_name=os.path.splitext(pass_name)[0]
 
 
 def detect_motion(file_name):
-    max_rect = 0
+#    max_rect = 0
+    num1 = 0
     vs = cv2.VideoCapture(file_name)
     firstFrame = None
     while True:
@@ -91,7 +92,7 @@ def detect_motion(file_name):
                 continue
 #            if cv2.contourArea(c) <= max_rect:
 #                continue
-            max_rect = cv2.contourArea(c)
+#            max_rect = cv2.contourArea(c)
             (x, y, w, h) = cv2.boundingRect(c)
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
             frameOrig = frame.copy()
@@ -102,18 +103,15 @@ def detect_motion(file_name):
             folder1 = folder1+"/"+file_name.split('-')[1]+"-"+file_name.split('-')[2].split('.')[0]
             if not os.path.exists(folder1):
                 os.mkdir(folder1)
-            
-            num1 = 1
-            filejpg=folder1+"/"+file_name.split('.')[0]+str(num1)+".jpg"
+           
+            filejpg=folder1+"/"+file_name.split('.')[0]+"_"+str(num1)+"_.jpg"
             while  os.path.exists(filejpg):
                 num1 += 1
-                filejpg=folder1+"/"+file_name.split('.')[0]+str(num1)+".jpg"
-
-            if os.path.exists(filejpg):
-                os.remove(filejpg)
+                filejpg=folder1+"/"+file_name.split('.')[0]+"_"+str(num1)+"_.jpg"
+                
             cv2.imwrite(filejpg, frameOrig)
     vs.release()   
-    return max_rect
+    return num1
     
 def getSegs(m3):
     lines = m3.text.split('\n')
