@@ -188,10 +188,10 @@ if __name__ == "__main__":
                 
         aa.append(int(i.split('.')[0])/1000)
         bb.append(i)
-        if aa[-1] - aa[0] > TIME_LIM:
+        value = datetime.datetime.fromtimestamp(aa[0],tzloc)
+        value2 = datetime.datetime.fromtimestamp(aa[-1],tzloc)
+        if aa[-1] - aa[0] > TIME_LIM or value.strftime('%Y%m%d') != value2.strftime('%Y%m%d'):        
             print(bb)
-            value = datetime.datetime.fromtimestamp(aa[0],tzloc)
-            value2 = datetime.datetime.fromtimestamp(aa[-1],tzloc)
             file_video_name = value.strftime('%Y%m%d-%H%M%S')+value2.strftime('-%H%M%S')+".ts"
             dumpSegs(url, bb,file_video_name )
             out = detect_motion(file_video_name)
@@ -203,18 +203,18 @@ if __name__ == "__main__":
                     'time_stop':value2.strftime('%H%M%S'),'count_move':out,
                     'screen':'none' if out == 0 else file_video_name.split('.')[0]+".jpg"})
             if out > 2:
-                numdir = 1
-               
+                numdir = 1              
                 folder1 = path_to_in+file_video_name.split('-')[0]
                 folder1 = folder1+"/"+file_video_name.split('-')[1]+"-"+file_video_name.split('-')[2].split('.')[0]
                 while os.path.exists(folder1+"/"+str(numdir)):
                     fp_in = folder1+"/"+str(numdir)+"/"+"*.jpg"
-                    fp_out = folder1+"/"+str(numdir)+"/"+file_video_name.split('.')[0]+".gif"
+                    fp_out = folder1+"/"+str(numdir)+"_"+file_video_name.split('.')[0]+".gif"
                     img, *imgs = [Image.open(f) for f in sorted(glob.glob(fp_in))]
                     img.save(fp=fp_out, format='GIF', append_images=imgs,
                             save_all=True, duration=200, loop=0)
-                    os.system("rm -rf "+folder1+"/"+str(numdir)+"/"+"*.jpg")
+#                    os.system("rm -rf "+folder1+"/"+str(numdir)+"/"+"*.jpg")
                     numdir += 1
+#upload youtube    
             os.remove(file_video_name)
 
             os.system("git config --global user.name \""+logi_name+"\"")
