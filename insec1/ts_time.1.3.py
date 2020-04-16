@@ -126,7 +126,7 @@ def detect_motion(file_name):
                 step_sv = 0
             cv2.imwrite(filejpg, frameOrig)
     vs.release()   
-    return num1
+    return siz1rect
     
 def getSegs(m3):
     lines = m3.text.split('\n')
