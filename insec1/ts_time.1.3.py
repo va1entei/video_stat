@@ -94,11 +94,11 @@ def detect_motion(file_name):
         for c in cnts:
             if cv2.contourArea(c) < DEF_AREA:
                 continue
-            if cv2.contourArea(c) <= siz1rect and step_sv == 1:
+            if cv2.contourArea(c) <= siz1rect and step_sv == 5:
                 continue
             siz1rect = cv2.contourArea(c)
 
-            if len(cnts) <= num1rect and step_sv == 2:
+            if len(cnts) <= num1rect and step_sv == 4:
                 continue
             num1rect = len(cnts)
             
@@ -123,7 +123,7 @@ def detect_motion(file_name):
                 os.remove(filejpg)           
             step_sv += 1
             if step_sv > 5:
-                step_sv = 0
+                step_sv = 2
             cv2.imwrite(filejpg, frameOrig)
     vs.release()   
     return siz1rect
@@ -218,7 +218,7 @@ if __name__ == "__main__":
             os.system("git remote set-url origin https://"+logi_name+":"+pass_name+"@github.com/"+logi_name+"/"+retpo_name+".git")
             os.system("git checkout master")
             os.system("git add  insec1 "+path_to_in)
-            os.system("git commit -m \"oinion csv files\"")
+            os.system("git commit -m \"add .gif and .jpg  files\"")
             os.system("git push origin master   ") 	
             
             aa = []
