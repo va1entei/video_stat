@@ -25,4 +25,4 @@ jobs:
            sudo apt-get install python-requests          
            sudo pip3 install imutils
            sudo pip3 install Pillow
-           sudo python3 insec1/ts_time.1.3.py /opt/ in1/ https://files.atriw.com/mstream/zubryonline.stream/index.m3u8
+           sudo python3 insec1/ts_time.1.4.py /opt/ in2/ https://files.atriw.com/mstream/zubryonline.stream/index.m3u8
