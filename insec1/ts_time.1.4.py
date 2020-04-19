@@ -244,8 +244,17 @@ if __name__ == "__main__":
             aa = []
             bb = []
 			
+    st1 = df['data'].unique()
+    print(st1)
     for file in os.listdir(path_to_in):
-        if file in df['data'].unique():
+        if file in str(st1):
             continue
         print(path_to_in+file)
-#        shutil.rmtree(path_to_in+file, ignore_errors=True)  			
+        shutil.rmtree(path_to_in+file, ignore_errors=True)  
+    os.system("git config --global user.name \""+logi_name+"\"")
+    os.system("git config --global user.email "+logi_name+"@github.com")
+    os.system("git remote set-url origin https://"+logi_name+":"+pass_name+"@github.com/"+logi_name+"/"+retpo_name+".git")
+    os.system("git checkout master")
+    os.system("git add  insec "+path_to_in)
+    os.system("git commit -m \"delete file in no in csv\"")
+    os.system("git push origin master   ") 
