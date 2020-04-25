@@ -15,8 +15,8 @@ import shutil
 
 
 
-TIME_LIM = 600
-DEF_AREA = 250
+TIME_LIM = 1800
+DEF_AREA = 230
 REFERER = ""
 
 OUTNAME = 'video_'  # default output file name
