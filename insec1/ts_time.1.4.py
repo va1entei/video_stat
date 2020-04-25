@@ -97,12 +97,14 @@ def detect_motion(file_name):
         thresh = cv2.dilate(thresh, None, iterations=2)
         cnts = cv2.findContours(thresh.copy(), cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
         cnts = imutils.grab_contours(cnts)
+        siz1rectloc = 0
         for c in cnts:
             if cv2.contourArea(c) < DEF_AREA:
                 continue
-		
             if cv2.contourArea(c) > siz1rect:
-                siz1rect = cv2.contourArea(c)
+                siz1rect = cv2.contourArea(c)		
+            if cv2.contourArea(c) > siz1rectloc:
+                siz1rectloc = cv2.contourArea(c)
                 (x1,y1,w1,h1) = cv2.boundingRect(c)
                 transparent_area1 = (0,0,wa,y1)
                 transparent_area2 = (0, y1 + h1,wa,ha)
