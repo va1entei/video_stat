@@ -15,8 +15,8 @@ import shutil
 
 
 
-TIME_LIM = 600
-DEF_AREA = 500
+TIME_LIM = 180
+DEF_AREA = 250
 REFERER = ""
 
 OUTNAME = 'video_'  # default output file name
@@ -99,13 +99,11 @@ def detect_motion(file_name):
         for c in cnts:
             if cv2.contourArea(c) < DEF_AREA:
                 continue
-#            if cv2.contourArea(c) <= siz1rect and step_sv == 5:
-#                continue
-#            siz1rect = cv2.contourArea(c)
-
-#            if len(cnts) <= num1rect and step_sv == 4:
-#                continue
-#            num1rect = len(cnts)
+		
+            if cv2.contourArea(c) <= siz1rect:
+	    	siz1rect = cv2.contourArea(c)
+            if len(cnts) <= num1rect:
+	    	num1rect = len(cnts)
             
             flg_save += 1
             
@@ -145,7 +143,7 @@ def detect_motion(file_name):
             capms = vs.get(cv2.CAP_PROP_POS_MSEC)
     
     vs.release()   
-    return coun_save,capms            
+    return coun_save,capms,siz1rect,num1rect            
     
 def getSegs(m3):
     lines = m3.text.split('\n')
@@ -186,6 +184,7 @@ if __name__ == "__main__":
             writer.writeheader()
             writer.writerow({'data': '20200101', 'time_start': '010101',
                 'time_stop':'010101','count_move':'0','caps_num':'0.0',
+		'size_rect':'0','count_rect':'0',			     
                 'screen':'none' })
                 
     df = pd.read_csv(file_csv)
@@ -211,14 +210,14 @@ if __name__ == "__main__":
             print(bb)
             file_video_name = value.strftime('%Y%m%d-%H%M%S')+value2.strftime('-%H%M%S')+".ts"
             dumpSegs(url, bb,file_video_name )
-            out,caps_num = detect_motion(file_video_name)
+            out,caps_num,sizrect,numrect = detect_motion(file_video_name)
             print(out)
 #pogoda 
             with open(file_csv, 'a', newline='') as csvfile:
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                 writer.writerow({'data': value.strftime('%Y%m%d'), 'time_start':  value.strftime('%H%M%S'),
                     'time_stop':value2.strftime('%H%M%S'),'count_move':out,
-                    'caps_num':caps_num,
+                    'caps_num':caps_num,'size_rect':sizrect,'count_rect':numrect,
                     'screen':'none' if out == 0 else file_video_name.split('.')[0]+".jpg"})
 
             if out != 0:
@@ -243,7 +242,8 @@ if __name__ == "__main__":
             
             aa = []
             bb = []
-			
+		
+    df = pd.read_csv(file_csv)			
     st1 = df['data'].unique()
     print(st1)
     for file in os.listdir(path_to_in):
