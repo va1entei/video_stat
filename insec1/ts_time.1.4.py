@@ -130,8 +130,7 @@ def detect_motion(file_name):
             filejpg=folder1+"/"+file_name.split('.')[0]+"_"+str(step_sv)+"_.jpg"
             if os.path.exists(filejpg):
                 os.remove(filejpg)           
-            if step_sv == 0:
-                step_sv = 1
+
             coun_save += 1
             cv2.imwrite(filejpg, frameOrig)
             
@@ -151,7 +150,9 @@ def detect_motion(file_name):
 
             rgb_im = alphaComposited.convert('RGB')
             rgb_im.save(folder1+"/"+file_name.split('.')[0]+"_0_.jpg")  
-            if os.path.exists(filejpg):
+            if step_sv == 0:
+                step_sv = 1
+            elif os.path.exists(filejpg):
                 os.remove(filejpg)    
         if capms != 0.0:
             capms = vs.get(cv2.CAP_PROP_POS_MSEC)
