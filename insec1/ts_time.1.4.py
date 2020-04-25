@@ -176,7 +176,7 @@ if __name__ == "__main__":
     aa = []
     bb = []
     print("csv")
-    fieldnames = ['data', 'time_start','time_stop','count_move','caps_num','screen']
+    fieldnames = ['data', 'time_start','time_stop','count_move','caps_num','size_rect','count_rect','screen']
     file_csv='insec1/names.1.4.csv'
     if not os.path.exists(file_csv):
         with open(file_csv, 'w', newline='') as csvfile:
