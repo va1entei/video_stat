@@ -184,8 +184,7 @@ if __name__ == "__main__":
             writer.writeheader()
             writer.writerow({'data': '20200101', 'time_start': '010101',
                 'time_stop':'010101','count_move':'0','caps_num':'0.0',
-		'size_rect':'0','count_rect':'0',			     
-                'screen':'none' })
+                'size_rect':'0','count_rect':'0','screen':'none' })
                 
     df = pd.read_csv(file_csv)
     datanow = df['data'].tolist()
