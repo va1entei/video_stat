@@ -10,12 +10,12 @@ import cv2
 import csv
 import pytz
 import glob
-from PIL import Image
+from PIL import Image ,ImageDraw
 import shutil
 
 
 
-TIME_LIM = 180
+TIME_LIM = 600
 DEF_AREA = 250
 REFERER = ""
 
@@ -84,7 +84,8 @@ def detect_motion(file_name):
         frame = frame[1]
         text = "Unoccupied"
         if frame is None:
-            break                
+            break    
+        (wa, ha,c) =  frame.shape  
         frame = imutils.resize(frame, width=500)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         gray = cv2.GaussianBlur(gray, (21, 21), 0)
@@ -102,6 +103,11 @@ def detect_motion(file_name):
 		
             if cv2.contourArea(c) > siz1rect:
                 siz1rect = cv2.contourArea(c)
+                (x1,y1,w1,h1) = cv2.boundingRect(c)
+                transparent_area1 = (0,0,wa,y1)
+                transparent_area2 = (0, y1 + h1,wa,ha)
+                transparent_area3 = (0,y1, x1,y1 + h1)
+                transparent_area4 = (x1+w1,y1, wa,y1 + h1)                
             if len(cnts) > num1rect:
                 num1rect = len(cnts)
             
@@ -110,7 +116,7 @@ def detect_motion(file_name):
             (x, y, w, h) = cv2.boundingRect(c)
             cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
         if flg_save > 0:
-            flg_save = 0
+            flg_save = 1
             frameOrig = frame.copy()
             
             folder1 = path_to_in+file_name.split('-')[0]
@@ -124,9 +130,8 @@ def detect_motion(file_name):
             filejpg=folder1+"/"+file_name.split('.')[0]+"_"+str(step_sv)+"_.jpg"
             if os.path.exists(filejpg):
                 os.remove(filejpg)           
-            step_sv += 1
-            if step_sv > 2:
-                step_sv = 2
+            if step_sv == 0:
+                step_sv = 1
             coun_save += 1
             cv2.imwrite(filejpg, frameOrig)
             
@@ -134,11 +139,20 @@ def detect_motion(file_name):
             image2 = Image.open(filejpg)
             image1.putalpha(1)
             image2.putalpha(1)
-#            alphaComposited = Image.alpha_composite(image1, image2)
-            alphaComposited = Image.blend(image1, image2,.1)
+            
+            mask=Image.new('L', image2.size, color=255)
+            draw=ImageDraw.Draw(mask) 
+            draw.rectangle(transparent_area1, fill=0)
+            draw.rectangle(transparent_area2, fill=0)
+            draw.rectangle(transparent_area3, fill=0)
+            draw.rectangle(transparent_area4, fill=0)
+            image2.putalpha(mask)
+            alphaComposited = Image.alpha_composite(image1, image2)
+
             rgb_im = alphaComposited.convert('RGB')
             rgb_im.save(folder1+"/"+file_name.split('.')[0]+"_0_.jpg")  
-        
+            if os.path.exists(filejpg):
+                os.remove(filejpg)    
         if capms != 0.0:
             capms = vs.get(cv2.CAP_PROP_POS_MSEC)
     
@@ -219,15 +233,6 @@ if __name__ == "__main__":
                     'caps_num':caps_num,'size_rect':sizrect,'count_rect':numrect,
                     'screen':'none' if out == 0 else file_video_name.split('.')[0]+".jpg"})
 
-            if out != 0:
-                folder1 = path_to_in+file_video_name.split('-')[0]
-                folder1 = folder1+"/"+file_video_name.split('-')[1]+"-"+file_video_name.split('-')[2].split('.')[0]
-                fp_in = folder1+"/"+"*.jpg"
-                fp_out = folder1+"/"+file_video_name.split('.')[0]+".gif"
-                img, *imgs = [Image.open(f) for f in sorted(glob.glob(fp_in))]
-                img.save(fp=fp_out, format='GIF', append_images=imgs,
-                        save_all=True, duration=200, loop=0)
-#                os.system("rm -rf "+folder1+"/"+"*.jpg")
                 
             os.remove(file_video_name)
 
