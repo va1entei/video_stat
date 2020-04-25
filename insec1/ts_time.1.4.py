@@ -101,9 +101,9 @@ def detect_motion(file_name):
                 continue
 		
             if cv2.contourArea(c) <= siz1rect:
-	    	siz1rect = cv2.contourArea(c)
+                siz1rect = cv2.contourArea(c)
             if len(cnts) <= num1rect:
-	    	num1rect = len(cnts)
+                num1rect = len(cnts)
             
             flg_save += 1
             
