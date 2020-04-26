@@ -239,7 +239,7 @@ if __name__ == "__main__":
                 with open("README.md", 'a', newline='') as filemd:
 #                ![20202020 1](in/20200426/000008-001013/20200426-000008-001013_0_.jpg)
 #                    path_to_in+file_name.split('-')[0]+"/"+file_video_name.split('.')[0]+".jpg"
-                    writerow1 = "!["+file_video_name.split('.')[0]+"] ("+path_to_in+file_name.split('-')[0]+"/"+file_video_name.split('.')[0]+".jpg)\n"    
+                    writerow1 = "!["+file_video_name.split('.')[0]+"] ("+path_to_in+file_video_name.split('-')[0]+"/"+file_video_name.split('.')[0]+".jpg)\n"    
                     filemd.write(writerow1)
                 
             os.remove(file_video_name)
