@@ -125,9 +125,9 @@ def detect_motion(file_name):
             if not os.path.exists(folder1):
                 os.mkdir(folder1)
             
-            folder1 = folder1+"/"+file_name.split('-')[1]+"-"+file_name.split('-')[2].split('.')[0]
-            if not os.path.exists(folder1):
-                os.mkdir(folder1)
+#            folder1 = folder1+"/"+file_name.split('-')[1]+"-"+file_name.split('-')[2].split('.')[0]
+#            if not os.path.exists(folder1):
+#                os.mkdir(folder1)
   
             filejpg=folder1+"/"+file_name.split('.')[0]+"_"+str(step_sv)+"_.jpg"
             if os.path.exists(filejpg):
@@ -235,7 +235,12 @@ if __name__ == "__main__":
                     'time_stop':value2.strftime('%H%M%S'),'count_move':out,
                     'caps_num':caps_num,'size_rect':sizrect,'count_rect':numrect,
                     'screen':'none' if out == 0 else file_video_name.split('.')[0]+".jpg"})
-
+            if out != 0:
+                with open("README.md", 'a', newline='') as filemd:
+#                ![20202020 1](in/20200426/000008-001013/20200426-000008-001013_0_.jpg)
+#                    path_to_in+file_name.split('-')[0]+"/"+file_video_name.split('.')[0]+".jpg"
+                    writerow1 = "!["+file_video_name.split('.')[0]+"] ("+path_to_in+file_name.split('-')[0]+"/"+file_video_name.split('.')[0]+".jpg)\n"    
+                    filemd.write(writerow1)
                 
             os.remove(file_video_name)
 
@@ -243,7 +248,7 @@ if __name__ == "__main__":
             os.system("git config --global user.email "+logi_name+"@github.com")
             os.system("git remote set-url origin https://"+logi_name+":"+pass_name+"@github.com/"+logi_name+"/"+retpo_name+".git")
             os.system("git checkout master")
-            os.system("git add  insec1 "+path_to_in)
+            os.system("git add  insec1 "+path_to_in+"README.md")
             os.system("git commit -m \"add .gif and .jpg  files\"")
             os.system("git push origin master   ") 	
             
