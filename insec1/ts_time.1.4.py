@@ -197,6 +197,10 @@ if __name__ == "__main__":
     aa = []
     bb = []
     print("csv")
+    now1 = datetime.datetime.now()
+    if os.path.exists("Readme.md"):
+        if not os.path.exists(now1.strftime('%Y%m%d')+".md"):
+            os.rename("Readme.md", now1.strftime('%Y%m%d')+".md")
     fieldnames = ['data', 'time_start','time_stop','count_move','caps_num','size_rect','count_rect','screen']
     file_csv='insec1/names.1.4.csv'
     if not os.path.exists(file_csv):
@@ -213,10 +217,6 @@ if __name__ == "__main__":
     timenow = df['time_stop'].tolist()
     timenum = timenow[-1]  
     tzloc = pytz.timezone('Europe/Warsaw')
-    now1 = datetime.datetime.now()
-	if os.path.exists("Readme.md"):
-        if not os.path.exists(now1.strftime('%Y%m%d')+".md"):
-            os.rename("Readme.md", now1.strftime('%Y%m%d')+".md")
     for i in segments:
         valuetmp = datetime.datetime.fromtimestamp(int(i.split('.')[0])/1000,tzloc)      
         if int(datanum) > int(valuetmp.strftime('%Y%m%d')):
