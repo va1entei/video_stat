@@ -213,7 +213,10 @@ if __name__ == "__main__":
     timenow = df['time_stop'].tolist()
     timenum = timenow[-1]  
     tzloc = pytz.timezone('Europe/Warsaw')
-    
+    now1 = datetime.datetime.now()
+	if os.path.exists("Readme.md"):
+        if not os.path.exists(now1.strftime('%Y%m%d')+".md"):
+            os.rename("Readme.md", now1.strftime('%Y%m%d')+".md")
     for i in segments:
         valuetmp = datetime.datetime.fromtimestamp(int(i.split('.')[0])/1000,tzloc)      
         if int(datanum) > int(valuetmp.strftime('%Y%m%d')):
@@ -252,7 +255,7 @@ if __name__ == "__main__":
             os.system("git config --global user.email "+logi_name+"@github.com")
             os.system("git remote set-url origin https://"+logi_name+":"+pass_name+"@github.com/"+logi_name+"/"+retpo_name+".git")
             os.system("git checkout master")
-            os.system("git add  insec1 "+path_to_in+" README.md")
+            os.system("git add  insec1 "+path_to_in+" *.md")
             os.system("git commit -m \"add .gif and .jpg  files\"")
             os.system("git push origin master   ") 	
             
