@@ -112,9 +112,9 @@ def detect_motion(file_name):
                 (x1,y1,w1,h1) = cv2.boundingRect(c)
                 if maxRoad<valueRoad:
                     maxRoad=valueRoad
-                if abs(xLost-x1)<10 and abs(yLost-y1)<10: 
+                if abs(xLost-x1)>0 and abs(xLost-x1)<10 and abs(yLost-y1)<10: 
                     valueRoad +=1
-                else:
+                elif abs(xLost-x1)>10 or abs(yLost-y1)>10:
                     valueRoad = 0
                 xLost=x1
                 yLost=y1
@@ -261,7 +261,7 @@ if __name__ == "__main__":
 #                    path_to_in+file_name.split('-')[0]+"/"+file_video_name.split('.')[0]+".jpg"
                     writerow1 = "!["+file_video_name.split('.')[0]+"]("+path_to_in+file_video_name.split('-')[0]+"/"+file_video_name.split('.')[0]+"_0_.jpg)\n"    
                     filemd.write(writerow1)
-            if maxRd > 200:
+            if maxRd > 50:
                 os.rename(file_video_name,"/opt/video.mp4")
                 os.system("(cd /opt/ && python3 -m youtube_video_upload ex.yaml)")
                 os.remove("/opt/video.mp4")
