@@ -265,7 +265,7 @@ if __name__ == "__main__":
 #                    path_to_in+file_name.split('-')[0]+"/"+file_video_name.split('.')[0]+".jpg"
                     writerow1 = "!["+file_video_name.split('.')[0]+"]("+path_to_in+file_video_name.split('-')[0]+"/"+file_video_name.split('.')[0]+"_0_.jpg)\n"    
                     filemd.write(writerow1)
-            if maxRd > 50:
+            if maxRd > 100:
                 os.rename(file_video_name,"/opt/video.mp4")
                 os.system("(cd /opt/ && python3 -m youtube_video_upload ex.yaml)")
                 os.remove("/opt/video.mp4")
