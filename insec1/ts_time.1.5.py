@@ -81,6 +81,7 @@ def detect_motion(file_name):
     maxRoad=0
     xLost=0
     yLost=0
+    xRoad=0
     vs = cv2.VideoCapture(file_name)
     firstFrame = None
     while True:
@@ -112,9 +113,12 @@ def detect_motion(file_name):
                 (x1,y1,w1,h1) = cv2.boundingRect(c)
                 if maxRoad<valueRoad:
                     maxRoad=valueRoad
+                if xRoad==0:
+                    xRoad=x1
                 if abs(xLost-x1)>0 and abs(xLost-x1)<10 and abs(yLost-y1)<10: 
-                    valueRoad +=1
+                    valueRoad =abs(xRoad-x1)
                 elif abs(xLost-x1)>10 or abs(yLost-y1)>10:
+                    xRoad=x1
                     valueRoad = 0
                 xLost=x1
                 yLost=y1
