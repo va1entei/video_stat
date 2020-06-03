@@ -263,7 +263,7 @@ if __name__ == "__main__":
                     filemd.write(writerow1)
             if maxRd > 200:
                 os.rename(file_video_name,"/opt/video.mp4")
-                os.system("(cd /opt/&&python3 -m youtube_video_upload ex.yaml)")
+                os.system("(cd /opt/ && python3 -m youtube_video_upload ex.yaml)")
                 os.remove("/opt/video.mp4")
             else:
                 os.remove(file_video_name)
