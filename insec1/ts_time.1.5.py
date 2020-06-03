@@ -15,7 +15,7 @@ import shutil
 
 
 
-TIME_LIM = 1800
+TIME_LIM = 600
 DEF_AREA = 230
 REFERER = ""
 
@@ -262,7 +262,7 @@ if __name__ == "__main__":
                     writerow1 = "!["+file_video_name.split('.')[0]+"]("+path_to_in+file_video_name.split('-')[0]+"/"+file_video_name.split('.')[0]+"_0_.jpg)\n"    
                     filemd.write(writerow1)
             if maxRd > 200:
-                os.rename(file_video_name,"/opt/video.mp4"
+                os.rename(file_video_name,"/opt/video.mp4")
                 os.system("(cd /opt/&&python3 -m youtube_video_upload ex.yaml)")
                 os.remove("/opt/video.mp4")
             else:
