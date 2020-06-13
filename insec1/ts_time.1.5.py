@@ -257,7 +257,7 @@ if __name__ == "__main__":
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                 writer.writerow({'data': value.strftime('%Y%m%d'), 'time_start':  value.strftime('%H%M%S'),
                     'time_stop':value2.strftime('%H%M%S'),'count_move':out,
-                    'caps_num':caps_num,'size_rect':sizrect,'count_rect':numrect,
+                    'caps_num':caps_num,'size_rect':maxRd,'count_rect':numrect,
                     'screen':'none' if out == 0 else file_video_name.split('.')[0]+".jpg"})
             if out != 0:
                 with open("README.md", 'a', newline='') as filemd:
