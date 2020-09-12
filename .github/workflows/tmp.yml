@@ -9,30 +9,30 @@ jobs:
     - uses: actions/checkout@v1
       with:
         ref: ${{ github.head_ref }}
-    - name: free disk space
-      run: |
-        sudo swapoff -a
-        sudo rm -f /swapfile
-        sudo apt clean
-        docker rmi $(docker image ls -aq)
-        df -h
-    - name: Install apt
+    - name: works tmp
       env:
         COMMIT_MSG: |
           addcommit
           skip-checks: true
       run: |
-           sudo apt update -y
-           sudo apt-get install p7zip-full unzip 
-           cd insec
-           sudo 7z x archive.7z -p${{ secrets.GIT_PASS }} -o/opt/
-           cd ..  
-           sudo apt-get install -y git python3 python3-pandas python3-pip python3-setuptools
-           sudo pip3 install opencv-python
-           sudo apt-get install python-requests          
-           sudo pip3 install imutils
-           sudo pip3 install Pillow
-           sudo pip3 install youtube-video-upload
-           sudo python3 insec1/ts_time.1.5.py /opt/ in2/ https://files.atriw.com/mstream/zubryonline.stream/index.m3u8
+        sudo rm -rf 2020*.md
+        sudo git config --global user.email "${GITHUB_ACTOR}@github.com"
+        sudo git config --global user.name "${GITHUB_ACTOR}"
+        sudo git remote -v
+        sudo git add *.md
+        sudo git commit -m "clean lost md"
+        sudo git push "https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" HEAD:master --force
+#           sudo apt update -y
+#           sudo apt-get install p7zip-full unzip 
+#           cd insec
+#           sudo 7z x archive.7z -p${{ secrets.GIT_PASS }} -o/opt/
+#           cd ..  
+#           sudo apt-get install -y git python3 python3-pandas python3-pip python3-setuptools
+#           sudo pip3 install opencv-python
+#           sudo apt-get install python-requests          
+#           sudo pip3 install imutils
+#           sudo pip3 install Pillow
+#           sudo pip3 install youtube-video-upload
+#           sudo python3 insec1/ts_time.1.5.py /opt/ in2/ https://files.atriw.com/mstream/zubryonline.stream/index.m3u8
 #          sudo rm -rf in/* && sudo python3 insec1/to_repo.py /opt/ in/
 #          sudo rm -rf in1/* && sudo python3 insec1/to_repo.py /opt/ in1/           
