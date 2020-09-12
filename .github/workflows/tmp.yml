@@ -19,7 +19,7 @@ jobs:
         sudo git config --global user.email "${GITHUB_ACTOR}@github.com"
         sudo git config --global user.name "${GITHUB_ACTOR}"
         sudo git remote -v
-        sudo git add *.md
+        sudo git add *
         sudo git commit -m "clean lost md"
         sudo git push "https://${GITHUB_ACTOR}:${{ secrets.GITHUB_TOKEN }}@github.com/${GITHUB_REPOSITORY}.git" HEAD:master --force
 #           sudo apt update -y
