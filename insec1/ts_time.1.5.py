@@ -42,33 +42,23 @@ try:
 except IndexError:
     print("Usage:  path/to/insec path/to/in urlvideo")
     sys.exit(1)
+	
+def funExFile(exfile,expath):
+    nametm="noname"
+    for file in os.listdir(expath):
+        if file.endswith(exfile):
+            nametm=file
+    if nametm == "noname":
+        print("file not found "+exfile)
+        sys.exit()
+    nametm=os.path.splitext(nametm)[0]
+    return nametm
+	
 
-retpo_name="noname"
-for file in os.listdir(path_to_insec):
-    if file.endswith(".repo"):
-        retpo_name=file
-if retpo_name == "noname":
-    print("repo file not found")
-    sys.exit()
-retpo_name=os.path.splitext(retpo_name)[0]
-logi_name="noname"
-for file in os.listdir(path_to_insec):
-    if file.endswith(".login"):
-        logi_name=file
-if logi_name == "noname":
-    print("login file not found")
-    sys.exit()
-logi_name=os.path.splitext(logi_name)[0]
 
-pass_name="noname"
-for file in os.listdir(path_to_insec):
-    if file.endswith(".pass"):
-        pass_name=file
-if pass_name == "noname":
-    print("pass file not found")
-    sys.exit()
-pass_name=os.path.splitext(pass_name)[0]
-
+retpo_name=funExFile(".repo",path_to_insec)
+logi_name=funExFile(".login",path_to_insec)
+pass_name=funExFile(".pass",path_to_insec)
 
 def detect_motion(file_name):
     flg_save = 0
@@ -247,11 +237,11 @@ if __name__ == "__main__":
         value = datetime.datetime.fromtimestamp(aa[0],tzloc)
         value2 = datetime.datetime.fromtimestamp(aa[-1],tzloc)
         if aa[-1] - aa[0] > TIME_LIM or value.strftime('%Y%m%d') != value2.strftime('%Y%m%d'):        
-            print(bb)
+            #print(bb)
             file_video_name = value.strftime('%Y%m%d-%H%M%S')+value2.strftime('-%H%M%S')+".ts"
             dumpSegs(url, bb,file_video_name )
             out,caps_num,sizrect,numrect,maxRd = detect_motion(file_video_name)
-            print(out)
+            #print(out)
 #pogoda 
             with open(file_csv, 'a', newline='') as csvfile:
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
@@ -285,16 +275,27 @@ if __name__ == "__main__":
 		
     df = pd.read_csv(file_csv)			
     st1 = df['data'].unique()
-    print(st1)
+    #print(st1)
     for file in os.listdir(path_to_in):
         if file in str(st1):
             continue
-        print(path_to_in+file)
+        #print(path_to_in+file)
         shutil.rmtree(path_to_in+file, ignore_errors=True)  
+    for file in os.listdir(path_to_insec):
+        if not file.endswith(".md"):
+	    continue
+        if file == "README.md":
+            continue
+        print(file)
+        dataout="20"+file.split(".")[2]+file.split(".")[1]+file.split(".")[0]
+        print(dataout)
+        if dataout in str(st1):
+            continue
+        os.remove(file)
     os.system("git config --global user.name \""+logi_name+"\"")
     os.system("git config --global user.email "+logi_name+"@github.com")
     os.system("git remote set-url origin https://"+logi_name+":"+pass_name+"@github.com/"+logi_name+"/"+retpo_name+".git")
     os.system("git checkout master")
-    os.system("git add  insec1 "+path_to_in)
+    os.system("git add  insec1 "+path_to_in+" *.md")
     os.system("git commit -m \"delete file in no in csv\"")
     os.system("git push origin master   ") 
