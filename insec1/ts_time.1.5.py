@@ -283,7 +283,7 @@ if __name__ == "__main__":
         shutil.rmtree(path_to_in+file, ignore_errors=True)  
     for file in os.listdir("./"):
         if not file.endswith(".md"):
-	    continue
+	        continue
         if file == "README.md":
             continue
         print(file)
