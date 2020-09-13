@@ -281,14 +281,14 @@ if __name__ == "__main__":
             continue
         #print(path_to_in+file)
         shutil.rmtree(path_to_in+file, ignore_errors=True)  
-    for file in os.listdir(path_to_insec):
+    for file in os.listdir("./"):
         if not file.endswith(".md"):
 	    continue
         if file == "README.md":
             continue
         print(file)
-        dataout="20"+file.split(".")[2]+file.split(".")[1]+file.split(".")[0]
-        print(dataout)
+        dataout=os.path.splitext(file)[0]
+	print(dataout)
         if dataout in str(st1):
             continue
         os.remove(file)
@@ -296,6 +296,6 @@ if __name__ == "__main__":
     os.system("git config --global user.email "+logi_name+"@github.com")
     os.system("git remote set-url origin https://"+logi_name+":"+pass_name+"@github.com/"+logi_name+"/"+retpo_name+".git")
     os.system("git checkout master")
-    os.system("git add  insec1 "+path_to_in+" *.md")
+    os.system("git add  -A insec1 "+path_to_in+" *.md")
     os.system("git commit -m \"delete file in no in csv\"")
     os.system("git push origin master   ") 
