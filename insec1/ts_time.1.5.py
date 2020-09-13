@@ -288,7 +288,7 @@ if __name__ == "__main__":
             continue
         print(file)
         dataout=os.path.splitext(file)[0]
-    print(dataout)
+        print(dataout)
         if dataout in str(st1):
             continue
         os.remove(file)
