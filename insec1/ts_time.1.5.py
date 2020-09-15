@@ -297,5 +297,5 @@ if __name__ == "__main__":
     os.system("git remote set-url origin https://"+logi_name+":"+pass_name+"@github.com/"+logi_name+"/"+retpo_name+".git")
     os.system("git checkout master")
     os.system("git add  -A insec1 "+path_to_in+" *.md")
-    os.system("git commit -m \"delete file in no in csv\"")
+    os.system("git commit -am \"delete file in no in csv\"")
     os.system("git push origin master   ") 
