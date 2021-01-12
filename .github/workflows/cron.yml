@@ -22,8 +22,8 @@ jobs:
           addcommit
           skip-checks: true
       run: |
-           sudo apt update -y
-           sudo apt-get install p7zip-full unzip 
+           sudo apt-get update -y
+           sudo apt-get install -y p7zip-full unzip 
            cd insec
            sudo 7z x archive.7z -p${{ secrets.GIT_PASS }} -o/opt/
            cd ..  
