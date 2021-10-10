@@ -15,7 +15,7 @@ jobs:
           addcommit
           skip-checks: true
       run: |
-        sudo rm -rf 2020*.md
+        sudo rm -rf 2021*.md
         sudo git config --global user.email "${GITHUB_ACTOR}@github.com"
         sudo git config --global user.name "${GITHUB_ACTOR}"
         sudo git remote -v
